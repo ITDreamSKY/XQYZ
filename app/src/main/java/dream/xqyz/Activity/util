@@ -1,0 +1,31 @@
+//二级缓存头像
+            final File file = new File(MyApplication.file, "/" + MyApplication.user.getObjectId() + "/" + MyApplication.user.getObjectId() + ".jpeg");
+            Bitmap bit = BitmapFactory.decodeFile(file.getAbsolutePath());
+            if (bit == null) {
+                //如果用户设置了头像的话
+                if (MyApplication.user.getUserIcon() != null) {
+                    MyApplication.user.getUserIcon().download(file.getAbsoluteFile(), new DownloadFileListener() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if (e == null) {
+                                //bit设置不了final
+                                final Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                                Log.i("MyFile", "======BitmapFactory.decodeFile(file.getAbsolutePath():=====" + file.getAbsoluteFile());
+                                //第二步 设置图片
+                                userIconImg.setImageBitmap(bitmap);
+                            }
+                        }
+
+                        @Override
+                        public void onProgress(Integer integer, long l) {
+
+                        }
+                    });
+                }
+            } else {
+                userIconImg.setImageBitmap(bit);
+            }
+
+
+
+
